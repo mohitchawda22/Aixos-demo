@@ -1,66 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import './Cards.css';
 
-export default function VehicleCard({ vehicleId = '' }) {
-  const [kilometers, setKilometers] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+export default function Cards({
+  RegistrationNo = '',
+  kilometers = 0,
+  hours = 0,
+  quantity = 0,
+  vehicleList = []
+}) {
+  const [selectedVehicle, setSelectedVehicle] = useState(RegistrationNo);
+  const [kmValue, setKmValue] = useState(kilometers);
+  const [hourValue, setHourValue] = useState(hours);
+  const [qtyValue, setQtyValue] = useState(quantity);
+
+  useEffect(() => {
+    setSelectedVehicle(RegistrationNo);
+    setKmValue(kilometers);
+    setHourValue(hours);
+    setQtyValue(quantity);
+  }, [RegistrationNo, kilometers, hours, quantity]);
 
   return (
-    <div style={{ backgroundColor: '', borderRadius: '1rem', padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', width: '18rem', position: 'relative' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#fff', borderRadius: '0.5rem', padding: '0.25rem 0.5rem', width: '100%' }}>
-          <select
-            style={{ flex: 1, border: 'none', outline: 'none', backgroundColor: 'transparent' }}
-            value={vehicleId}
-            onChange={() => {}}
-          >
-            <option value="OD16G3462">OD16G3462</option>
-            <option value="OD16G3461">OD16G3461</option>
-          </select>
-          <span style={{ fontSize: '0.8rem' }}>▼</span>
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <div>
-          <label style={{ fontSize: '0.85rem', fontWeight: '500' }}>Kilo Meters</label>
-          <input
-            type="number"
-            style={{ width: '100%', borderRadius: '0.375rem', border: '1px solid #ccc', padding: '0.25rem 0.5rem' }}
-            value={kilometers}
-            onChange={(e) => setKilometers(e.target.value)}
-          />
-        </div>
-        <div>
-          <label style={{ fontSize: '0.85rem', fontWeight: '500' }}>Hours Meters</label>
-          <input
-            type="number"
-            style={{ width: '100%', borderRadius: '0.375rem', border: '1px solid #ccc', padding: '0.25rem 0.5rem' }}
-            value={hours}
-            onChange={(e) => setHours(e.target.value)}
-          />
-        </div>
-        <div>
-          <label style={{ fontSize: '0.85rem', fontWeight: '500' }}>Quantity</label>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <button
-              onClick={() => setQuantity(Math.max(0, quantity - 1))}
-              style={{ padding: '0.25rem 0.5rem', border: '1px solid #ccc', borderTopLeftRadius: '0.375rem', borderBottomLeftRadius: '0.375rem', backgroundColor: '#f9fafb' }}
+    <div className=''>
+      <div className="card-container">
+        <div className="card-header">
+          <div className="card-select-wrapper">
+            <select
+              className="card-select"
+              value={selectedVehicle}
+              onChange={(e) => setSelectedVehicle(e.target.value)}
             >
-              –
-            </button>
+              {vehicleList.length > 0 ? (
+                <>
+                  <option value="">Select Vehicle</option>
+                  {vehicleList.map((vehicle) => (
+                    <option key={vehicle._id} value={vehicle.sRegistrationNo}>
+                      {vehicle.sRegistrationNo}
+                    </option>
+                  ))}
+                </>
+              ) : (
+                <option value={RegistrationNo}>{RegistrationNo}</option>
+              )}
+            </select>
+          </div>
+        </div>
+
+        <div className="card-body">
+          <div>
+            <label className="card-label">Kilo Meters</label>
             <input
               type="number"
-              style={{ width: '3rem', textAlign: 'center', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="card-input"
+              value={kmValue}
+              onChange={(e) => setKmValue(Math.max(0,e.target.value))}
             />
-            <button
-              onClick={() => setQuantity(quantity + 1)}
-              style={{ padding: '0.25rem 0.5rem', border: '1px solid #ccc', borderTopRightRadius: '0.375rem', borderBottomRightRadius: '0.375rem', backgroundColor: '#f9fafb' }}
-            >
-              +
-            </button>
+          </div>
+          <div>
+            <label className="card-label">Hours Meters</label>
+            <input
+              type="number"
+              className="card-input"
+              value={hourValue}
+              onChange={(e) => setHourValue(Math.max(0,e.target.value))}
+            />
+          </div>
+          <div>
+            <label className="card-label">Quantity</label>
+            <div className="card-quantity">
+              <button
+                className="card-button card-button-left"
+                onClick={() => setQtyValue(Math.max(0, qtyValue - 1))}
+              >
+                –
+              </button>
+              <input
+                type="number"
+                className="card-quantity-input"
+                value={qtyValue}
+                onChange={(e) => setQtyValue(Number(e.target.value))}
+              />
+              <button
+                className="card-button card-button-right"
+                onClick={() => setQtyValue(qtyValue + 1)}
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
       </div>
