@@ -6,7 +6,8 @@ export default function Cards({
   kilometers = 0,
   hours = 0,
   quantity = 0,
-  vehicleList = []
+  vehicleList = [],
+  onDelete
 }) {
   const [selectedVehicle, setSelectedVehicle] = useState(RegistrationNo);
   const [kmValue, setKmValue] = useState(kilometers);
@@ -44,8 +45,8 @@ export default function Cards({
               )}
             </select>
           </div>
+          <button className="" onClick={onDelete}>🗑️</button>
         </div>
-
         <div className="card-body">
           <div>
             <label className="card-label">Kilo Meters</label>

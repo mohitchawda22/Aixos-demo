@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
 import Cards from './components/Cards';
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 function App() {
   const [data, setData] = useState([]);
@@ -26,6 +27,9 @@ function App() {
       console.log(error.response?.status);
     }
   };
+
+  console.log(data);
+  
 
   const fetchVechileApi = async () => {
     try {
@@ -71,6 +75,11 @@ function App() {
               kilometers={item?.nKiloMeter}
               hours={item?.nHourMeter}
               quantity={item?.nQuantity}
+              onDelete={()=>{
+                const updated=[...extraCards]
+                updated.splice(index,1)
+                setExtraCards(updated)
+              }}
             />
           ))
         )}
@@ -83,6 +92,11 @@ function App() {
             kilometers={card.nKiloMeter}
             hours={card.nHourMeter}
             quantity={card.nQuantity}
+            onDelete={()=>{
+              const updated=[...extraCards]
+              updated.splice(index,1)
+              setExtraCards(updated)
+            }}
           />
         ))}
       </div>
